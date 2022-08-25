@@ -3,6 +3,7 @@ const express = require('express');
 const app = express();
 const PORT = 4000;
 const userRoute = require('./routes/user.routes');
+const postRoute = require('./routes/post.routes')
 
 // -----------Introducing Content Type to the Express------------------
 
@@ -60,6 +61,7 @@ app.listen(PORT,()=>{
 //--------------Routeing-------------------------------------------------
 
 app.use('/user',userRoute);
+app.use('/post',postRoute);
 
 /**************************************************************** */
 
