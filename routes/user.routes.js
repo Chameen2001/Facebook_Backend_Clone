@@ -4,6 +4,7 @@ const User = require("../models/user.model");
 const app = express();
 app.use(express.json());
 
+
 router.post("/", async (req, res, next) => {
   //-------------------Gathering Data from request to our model--------------------
 
@@ -113,7 +114,6 @@ router.get("/search/",async(req,res,next)=>{
     const users = await User.find({},{firstName:1,surName:1,_id:1});
     const userAr = [];
     users.forEach((user)=>{
-      console.log(user.firstName + " " + user.surName);
       if(req.query.firstName === user.firstName || req.query.surName === user.surName){
         userAr.push({
           _id:user._id,
@@ -128,6 +128,37 @@ router.get("/search/",async(req,res,next)=>{
   } catch (error) {
     next(error)
   }
-})
+});
+
+router.delete('/:id',function(req,res,next){
+
+  User.findById(req.params.id).remove().then(result=>{
+    res.send(result);
+  }).catch(error=>{
+    next(error);
+  });
+});
+
+router.put('/:id',(req,res,next)=>{
+  User.findById(req.params.id).then(result=>{
+    const pass = result.password;
+    result.remove().then(result=>{
+      const user = new User(req.body);
+      user.password=pass;
+      user._id=req.params.id;
+      user.save().then(result=>{
+        res.send({
+          message:"successfully updated"
+        })
+      }).catch(error=>{
+        next(error);
+      })
+    })
+  }).catch(error=>{
+    error.status=404;
+    error.message=`There is not a user associate with this id (${req.params.id})`
+    next(error);
+  })
+});
 
 module.exports = router;
