@@ -119,12 +119,10 @@ router.get("/search/",async(req,res,next)=>{
           _id:user._id,
           firstName:user.firstName,
           surName:user.surName
-        })
+        });
+        res.json(userAr);
       }
     });
-
-    res.json(userAr);
-
   } catch (error) {
     next(error)
   }
