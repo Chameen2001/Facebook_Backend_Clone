@@ -25,6 +25,20 @@ router.get("/:id",async(req,res,next)=>{
     }
 });
 
+router.get('/01_post/:id',async(req,res,next)=>{
+    try {
+        const allPosts = await Post.find({userId:req.params.id},{});
+        let post;
+        allPosts.forEach(element => {
+            if(element._id==req.query.postId){
+                post=element;
+            }
+        });
+        res.send(post);
+    } catch (error) {
+        next(error);
+    }
+});
 
 
 module.exports = router;
