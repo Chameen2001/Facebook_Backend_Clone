@@ -4,6 +4,7 @@ const app = express();
 const PORT = 4000;
 const userRoute = require('./routes/user.routes');
 const postRoute = require('./routes/post.routes')
+const loginRoute = require('./routes/login.routes');
 
 // -----------Introducing Content Type to the Express------------------
 
@@ -62,7 +63,7 @@ app.listen(PORT,()=>{
 
 app.use('/user',userRoute);
 app.use('/post',postRoute);
-
+app.use('/login',loginRoute);
 /**************************************************************** */
 
 
