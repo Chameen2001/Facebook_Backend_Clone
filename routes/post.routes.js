@@ -17,4 +17,14 @@ router.post("/:id",async(req,res,next)=>{
     }
 })
 
+router.get("/:id",async(req,res,next)=>{
+    try {
+        res.send(await Post.find({userId:req.params.id},{}));
+    } catch (error) {
+        next(error)
+    }
+});
+
+
+
 module.exports = router;
